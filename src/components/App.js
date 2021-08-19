@@ -154,8 +154,80 @@ const states = [
   },
 ];
 
+function City(props){
+  let {children} = props;
+  let [showCityName, setShowCityName] = React.useState(false);
+  function showCity(){
+    setShowCityName(!showCityName);
+  }
+  return(
+    <>
+      <li onClick={showCity}>
+        {children.name}
+      </li>
+      {
+        showCityName?
+        <ul>
+          {
+            children.towns.map((ele,index)=>{
+              let key = 'town'+(index+1)
+              return(
+                <li key={key} id={key}>{ele.name}</li>
+              )
+            })
+          }
+        </ul>
+        :null
+      }
+    </>
+  )
+}
+
+function State(props){
+  let {children} = props;
+  let [state, setState] = React.useState(false);
+  function showCity(){
+    setState(!state);
+  }
+  return(
+    <>
+      <li onClick={showCity}>
+        {children.name}
+      </li>
+      {
+        state?
+        <ul>
+          {
+            children.cities.map((ele,index)=>{
+              let key = 'city'+(index+1)
+              return(
+                <City key={key} id={key}>{ele}</City>
+              )
+            })
+          }
+        </ul>
+        :null
+      }
+    </>
+  )
+}
+
+
+
+
 function App() {
-  return <div id="main"></div>;
+  return <div id="main">
+    <ul>
+      {
+        states.map((state,index)=>{
+          let key = 'state'+(index+1)
+          return(
+            <State key={key} id={key}>{state}</State>  
+          )
+        })
+      }
+    </ul>
+  </div>;
 }
 
 export default App;
